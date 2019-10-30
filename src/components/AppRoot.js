@@ -39,15 +39,3 @@ stackNavigatorConfig = {
 Stacks = createStackNavigator(stackRouteConfigs, stackNavigatorConfig);
 
 export default createAppContainer(Stacks);
-
-const mapStateToProps = () => {
-    return {
-
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-
-})
-
-//export default connect(mapStateToProps, mapDispatchToProps)(AppRoot);
