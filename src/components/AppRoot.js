@@ -1,18 +1,13 @@
 import React from 'react';
 import { View, Text, Easing, Animated } from 'react-native';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { connect } from 'react-redux';
 import Login from './Login';
 import MainView from './MainView';
+import AuthLoadingScreen from './AuthLoadingScreen';
 
-stackRouteConfigs = {
-    LoginView: {
-        screen: Login,
-        navigatinOptions: {
-            header: null
-        }
-    },
+const appStackRouteConfigs = {
     MainView: {
         screen: MainView,
         navigatinOptions: {
@@ -21,11 +16,20 @@ stackRouteConfigs = {
     }
 }
 
-stackNavigatorConfig = {
+const authStackRouteConfig = {
+    LoginView: {
+        screen: Login,
+        navigatinOptions: {
+            header: null
+        }
+    },
+}
+
+const stackNavigatorConfig = {
     headerMode: 'none',
     mode: 'card',
     defaultNavigationOptions: {
-      gesturesEnabled: false,
+        gesturesEnabled: false,
     },
     transitionConfig: () => ({
         transitionSpec: {
@@ -36,6 +40,19 @@ stackNavigatorConfig = {
     })
 }
 
-Stacks = createStackNavigator(stackRouteConfigs, stackNavigatorConfig);
+const AppStack = createStackNavigator(appStackRouteConfigs, stackNavigatorConfig);
 
-export default createAppContainer(Stacks);
+const AuthStack = createStackNavigator(authStackRouteConfig, stackNavigatorConfig);
+
+export default createAppContainer(
+    createSwitchNavigator(
+        {
+            AuthLoading: AuthLoadingScreen,
+            App: AppStack,
+            Auth: AuthStack,
+        },
+        {
+            initialRouteName: 'AuthLoading',
+        }
+    )
+);
